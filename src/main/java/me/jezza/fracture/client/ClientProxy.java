@@ -1,9 +1,12 @@
 package me.jezza.fracture.client;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import me.jezza.fracture.client.renderer.EntityFractureRenderer;
+import me.jezza.fracture.Fracture;
+import me.jezza.fracture.client.gui.FractureGui;
 import me.jezza.fracture.common.CommonProxy;
-import me.jezza.fracture.common.entity.EntityFracture;
+import me.jezza.fracture.common.containers.FractureContainer;
+import me.jezza.fracture.common.lib.FractureData;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -14,7 +17,6 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit() {
-		RenderingRegistry.registerEntityRenderingHandler(EntityFracture.class, new EntityFractureRenderer());
 	}
 
 	@Override
@@ -26,7 +28,26 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public GuiScreen getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+		FractureData<?> data;
+		switch (id) {
+			case 0:
+				Object object = world.getTileEntity(x, y, z);
+				if (object != null) {
+					data = Fracture.data(object.getClass());
+				} else {
+					object = world.getBlock(x, y, z);
+					data = Fracture.data(object.getClass());
+				}
+				return new FractureGui<>(player, new FractureContainer<>(player, data, object));
+			case 1:
+				Entity entity = world.getEntityByID(x);
+				if (entity != null) {
+					data = Fracture.data(entity.getClass());
+					return new FractureGui<>(player, new FractureContainer<>(player, data, entity));
+				}
+			default:
+		}
 		return null;
 	}
 }

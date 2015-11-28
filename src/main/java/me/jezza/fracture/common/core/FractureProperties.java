@@ -16,7 +16,7 @@ public class FractureProperties {
 	public static final String FORGE_REQ = "10.13.1." + BUILD;
 	public static final String FORGE_REQ_MAX = "10.14";
 
-	public static final String DEPENDENCIES = "required-after:FML@[" + FML_REQ + "," + FML_REQ_MAX + ");" + "required-after:Forge@[" + FORGE_REQ + "," + FORGE_REQ_MAX + ");";
+	public static final String DEPENDENCIES = "required-after:FML@[" + FML_REQ + "," + FML_REQ_MAX + ");" + "required-after:Forge@[" + FORGE_REQ + "," + FORGE_REQ_MAX + ");required-after:OmnisCore@[0.2,);";
 
 	public static final String SERVER_PROXY = "me.jezza.fracture.common.CommonProxy";
 	public static final String CLIENT_PROXY = "me.jezza.fracture.client.ClientProxy";
